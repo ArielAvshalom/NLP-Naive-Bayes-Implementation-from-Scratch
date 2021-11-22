@@ -2,11 +2,21 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sun Nov 21 14:03:22 2021
-
 @author: arielavshalom
-
-    
 """
+
+##############Global Variables
+#positive class of training data
+path_to_pos_train = r'movie-review-HW2/aclImdb/train/pos'
+#negative class of training data
+path_to_neg_train = r'movie-review-HW2/aclImdb/train/neg'
+#positive class of testing data
+path_to_pos_test = r'movie-review-HW2/aclImdb/test/pos'
+#negative class of testing data
+path_to_neg_test = r'movie-review-HW2/aclImdb/test/neg'
+
+##############
+
 
 import os, string
 
@@ -30,6 +40,7 @@ def lociCollect(lociPath: str) -> list:
             filepath = os.path.join(root, file)
             listofFiles.append(filepath)
     return(listofFiles)
+
 
 
 pos_train = lociCollect(path_to_pos_train)
