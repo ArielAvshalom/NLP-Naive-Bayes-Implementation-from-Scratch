@@ -36,9 +36,16 @@ def lociCollect(lociPath: str) -> list:
 #lowercase every letter and remove all punctuation in a file. Returns text.
 def clean_file(file_path):
     text = ''
-    with open(file_path, 'r') as file:
-        for line in file:
-            text = "".join([text, line])
+    try:
+    
+        with open(file_path, 'r') as file:
+            for line in file:
+                text = "".join([text, line])
+    except FileNotFoundError:
+        print(f'file name {file_path} not found.')
+        
+    except IsADirectoryError:
+        print('what is going on?')
     
     return text.lower().translate(str.maketrans('', '', string.punctuation))
 
@@ -101,9 +108,9 @@ def main():
 if __name__ == '__main__':
     pos_dict, neg_dict = main()
     
-    pos_test_vector = turn_test_files_into_vector_format('pos', path_to_pos_test)
+    pos_test_vector = turn_test_files_into_vector_format('pos', lociCollect(path_to_pos_test))
     
-    neg_test_vector = turn_test_files_into_vector_format('neg', path_to_neg_test)
+    neg_test_vector = turn_test_files_into_vector_format('neg', lociCollect(path_to_neg_test))
     
     with open(r'pos_train_dict.pickle', 'wb') as file:
         pickle.dump(pos_dict, file)
