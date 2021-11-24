@@ -82,6 +82,8 @@ def turn_test_files_into_vector_format(class_name, list_of_files):
     for file in list_of_files:
         cleaned_file = clean_file(file)
     list_of_examples.append(convert_cleaned_file_to_list(class_name, cleaned_file))
+    
+    return list_of_examples
         
 
 
