@@ -16,16 +16,46 @@ test = ['fast','couple','shoot','fly']
 
 train_vocab= set([word for review in train for word in review[1:]])
 
-word_dict = dict()
+action = dict()
+comedy = dict()
 
+set_of_words = set()
+
+
+current_class = ''
 for review in train:
     counter = 0
     for word in review:
         if counter == 0:
-            print('smth')
             counter+= 1
+            current_class = word
             continue
-        print('nthg')
-        word_dict[word] = word_dict.get(word, 0) + 1
-        counter+= 1
+        
+        if current_class == 'action':
+            action[word] = action.get(word, 0) + 1
+        else:
+            comedy[word] = comedy.get(word, 0) + 1
+        
+        set_of_words.add(word)
+        
+action_size, comedy_size = sum([value for value in action.values()]), sum([value for value in comedy.values()])
 
+
+p_action, p_comedy = 1, 1
+
+word_set_len = len(set_of_words)
+
+for word in test:
+    try:
+        p_action*= (action[word] + 1)/(action_size+word_set_len)
+    except KeyError:
+        p_action*=1/(action_size+word_set_len)
+    try:
+        p_comedy*=(comedy[word]+1)/(comedy_size+word_set_len)
+    except KeyError:
+        p_comedy*=1/(comedy_size+word_set_len)
+        
+if p_action > p_comedy:
+    print('action')
+else:
+    print('comedy')
