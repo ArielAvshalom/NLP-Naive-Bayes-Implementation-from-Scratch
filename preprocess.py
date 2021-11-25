@@ -16,8 +16,7 @@ path_to_neg_train = r'movie-review-HW2/aclImdb/train/neg'
 path_to_pos_test = r'movie-review-HW2/aclImdb/test/pos'
 #negative class of testing data
 path_to_neg_test = r'movie-review-HW2/aclImdb/test/neg'
-#file with list of all expected vocabulary words
-vocab_file = r'movie-review-HW2/aclImdb/imdb.vocab'
+
 
 ##############
 
