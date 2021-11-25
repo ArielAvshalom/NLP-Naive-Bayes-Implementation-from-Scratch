@@ -12,8 +12,17 @@ import pickle
 
 
 with open(r'neg_train_dict.pickle', 'rb') as file:
-    neg_train_dict = pickle.load()
+    neg_train_dict = pickle.load(file)
     
 with open(r'pos_train_dict.pickle', 'rb') as file:
-    pos_train_dict = pickle.load()
+    pos_train_dict = pickle.load(file)
     
+#############Test Vectors
+
+with open(r'pos_test_vector.pickle', 'rb') as file:
+    pos_test_vector= pickle.load(file)
+    
+with open(r'neg_test_vector.pickle', 'rb') as file:
+    neg_test_vector = pickle.load(file)
+    
+#############Helper Functions

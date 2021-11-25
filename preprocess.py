@@ -103,16 +103,18 @@ def main():
         current_file = clean_file(file)
         
         bag_of_words_update(neg_train_dictionary, current_file)
-        
-    return pos_train_dictionary, neg_train_dictionary
-
-
-if __name__ == '__main__':
-    pos_dict, neg_dict = main()
     
     pos_test_vector = turn_test_files_into_vector_format('pos', lociCollect(path_to_pos_test))
     
     neg_test_vector = turn_test_files_into_vector_format('neg', lociCollect(path_to_neg_test))
+        
+    return pos_train_dictionary, neg_train_dictionary, pos_test_vector, neg_test_vector
+
+
+if __name__ == '__main__':
+    pos_dict, neg_dict, pos_test_vector, neg_test_vector = main()
+    
+    
     
     with open(r'pos_train_dict.pickle', 'wb') as file:
         pickle.dump(pos_dict, file)
@@ -126,19 +128,3 @@ if __name__ == '__main__':
         
     with open(r'neg_test_vector.pickle', 'wb') as file:
         pickle.dump(neg_test_vector, file)
-    
-    
-
-    
-    
-        
-
-
-
-
-
-
-    
-
-
-
