@@ -24,5 +24,28 @@ with open(r'pos_test_vector.pickle', 'rb') as file:
     
 with open(r'neg_test_vector.pickle', 'rb') as file:
     neg_test_vector = pickle.load(file)
+
+#############Vocab File
+
+vocab_file = r'movie-review-HW2/aclImdb/imdb.vocab'
     
 #############Helper Functions
+
+#generate the vocabulary set and return the size of the set.
+def generate_vocab_set(vocab_file):
+    vocab = set()
+    
+    with open(vocab_file, 'r') as file:
+        for word in file:
+            vocab.add(word[:-1])
+    
+    vocab_size = len(vocab)
+    
+    return vocab_size
+
+
+
+#############Main
+
+def main():
+    

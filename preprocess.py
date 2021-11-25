@@ -56,17 +56,7 @@ def bag_of_words_update(dictionary_of_words, cleaned_up_text):
         dictionary_of_words[word] = dictionary_of_words.get(word, 0)+1
     return dictionary_of_words
 
-#generate the vocabulary set and return the size of the set.
-def generate_vocab_set(vocab_file):
-    vocab = set()
-    
-    with open(vocab_file, 'r') as file:
-        for word in file:
-            vocab.add(word[:-1])
-    
-    vocab_size = len(vocab)
-    
-    return vocab_size
+
 
 def convert_cleaned_file_to_list(class_name, cleaned_file):
     file_list = []
