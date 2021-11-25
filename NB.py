@@ -111,5 +111,14 @@ def main():
             
             
 test_results, percent_prediction = main()
+
+if __name__ == "__main__":
     
+    with open('test_results.csv', mode='w') as test_file:
+        writer = csv.writer(test_file, delimiter=',')
+
+        writer.writerow(['actual class', 'positive class choice', 'negative class choice','prediction'])
+        
+        for test in test_results:
+            writer.writerow(test)
     
