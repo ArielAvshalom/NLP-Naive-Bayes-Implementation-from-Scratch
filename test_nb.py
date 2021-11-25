@@ -57,5 +57,7 @@ for word in test:
         
 if p_action > p_comedy:
     print('action')
+    print(f'We predict the test set to be in the action class. The P(action) is {p_action} and the P(comedy) is {p_comedy}.')
 else:
     print('comedy')
+    print(f'We predict the test set to be in the comedy class. The P(comedy) is {p_comedy} and the P(action) is {p_action}.')
