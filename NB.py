@@ -6,7 +6,7 @@ Created on Wed Nov 24 14:33:07 2021
 @author: arielavshalom
 """
 
-import pickle
+import pickle, time, math, csv, random
 
 #############Train Dictionaries
 
@@ -25,7 +25,9 @@ with open(r'pos_test_vector.pickle', 'rb') as file:
 with open(r'neg_test_vector.pickle', 'rb') as file:
     neg_test_vector = pickle.load(file)
     
-combined_test_set = pos_test_vector.extend(neg_test_vector)
+combined_test_set = []
+combined_test_set.extend(pos_test_vector)
+combined_test_set.extend(neg_test_vector)
 
 #############Vocab File
 
@@ -53,11 +55,61 @@ def generate_vocab_set(vocab_file):
 
 def main():
     
+    missing_test_results = len(combined_test_set)
+    
     vocab_size = generate_vocab_set(vocab_file)
     
     pos_dict_size, neg_dict_size = sum([value for value in pos_train_dict.values()]), sum([value for value in neg_train_dict.values()])
     
+    test_results = []
     
+    for test in combined_test_set:
+        
+        #variables which reset for every test
+        test_result = []
+        test_result.append(test.pop())
+        p_pos, p_neg = 1, 1 #probability set to a large number because messing with logs and absolutes would be annoying below. Precision can be pretty annoying.
+        
+        for word in test:
+            try: #no add one smoothing on this section.
+                p_pos*= math.log((pos_train_dict[word] + 1)/(pos_dict_size+vocab_size), 60)
+            except KeyError:
+                p_pos*= math.log(1/(pos_dict_size+vocab_size), 60)
+                
+            try: #no add one smoothing on thi
+                p_neg*= math.log((neg_train_dict[word] + 1)/(neg_dict_size+vocab_size), 60)
+            except KeyError:
+                p_neg*=math.log(1/(neg_dict_size+vocab_size), 60)
+            
+            #print(p_pos, p_neg)
+        #time.sleep(2)
+        test_result.append(abs(p_pos))
+        test_result.append(abs(p_neg))
+        
+        if p_pos > p_neg:
+            test_result.append('pos')
+        elif p_neg < p_pos:
+            test_result.append('neg')
+        else:
+            test_result.append(random.choice(['pos', 'neg']))
+            missing_test_results-=1
+            
+            
+        test_results.append(test_result)
+        
     
+    number_of_correct_predictions = 0
+    
+    for result in test_results:
+        if result[0] == result[-1]:
+            number_of_correct_predictions += 1
+    
+    print(number_of_correct_predictions)
+    print(f"approximately {len(combined_test_set) - missing_test_results} predictions had errors because we approached a value that Python couldn't measure (precision error). \nThese results were randomly assigned pos or neg class. ")
+    
+    return test_results, number_of_correct_predictions/len(combined_test_set)
+            
+            
+test_results, percent_prediction = main()
     
     
