@@ -24,6 +24,8 @@ with open(r'pos_test_vector.pickle', 'rb') as file:
     
 with open(r'neg_test_vector.pickle', 'rb') as file:
     neg_test_vector = pickle.load(file)
+    
+combined_test_set = pos_test_vector.extend(neg_test_vector)
 
 #############Vocab File
 
@@ -45,7 +47,17 @@ def generate_vocab_set(vocab_file):
 
 
 
+
+
 #############Main
 
 def main():
+    
+    vocab_size = generate_vocab_set(vocab_file)
+    
+    pos_dict_size, neg_dict_size = sum([value for value in pos_train_dict.values()]), sum([value for value in neg_train_dict.values()])
+    
+    
+    
+    
     
