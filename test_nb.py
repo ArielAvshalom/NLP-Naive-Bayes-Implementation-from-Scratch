@@ -5,7 +5,7 @@ Created on Sun Nov 21 23:06:02 2021
 
 @author: arielavshalom
 """
-
+from math import log
 train = [['comedy', 'fun', 'couple', 'love', 'love'],
 ['action','fast','furious','shoot'],
 ['comedy', 'couple','fly','fast','fun','fun'],
@@ -47,13 +47,13 @@ word_set_len = len(set_of_words)
 
 for word in test:
     try:
-        p_action*= (action[word] + 1)/(action_size+word_set_len)
+        p_action+= abs(log((action[word] + 1)/(action_size+word_set_len)))
     except KeyError:
-        p_action*=1/(action_size+word_set_len)
+        p_action+=abs(log(1/(action_size+word_set_len)))
     try:
-        p_comedy*=(comedy[word]+1)/(comedy_size+word_set_len)
+        p_comedy+=abs(log((comedy[word]+1)/(comedy_size+word_set_len)))
     except KeyError:
-        p_comedy*=1/(comedy_size+word_set_len)
+        p_comedy+=abs(log(1/(comedy_size+word_set_len)))
         
 if p_action > p_comedy:
     print('action')
