@@ -72,14 +72,14 @@ def main():
         
         for word in test:
             try: #no add one smoothing on this section.
-                p_pos*= math.log((pos_train_dict[word] + 1)/(pos_dict_size+vocab_size), 60)
+                p_pos+= abs(math.log((pos_train_dict[word] + 1)/(pos_dict_size+vocab_size), 60))
             except KeyError:
-                p_pos*= math.log(1/(pos_dict_size+vocab_size), 60)
+                p_pos+= abs(math.log(1/(pos_dict_size+vocab_size), 60))
                 
             try: #no add one smoothing on thi
-                p_neg*= math.log((neg_train_dict[word] + 1)/(neg_dict_size+vocab_size), 60)
+                p_neg+= abs(math.log((neg_train_dict[word] + 1)/(neg_dict_size+vocab_size), 60))
             except KeyError:
-                p_neg*=math.log(1/(neg_dict_size+vocab_size), 60)
+                p_neg+= abs(math.log(1/(neg_dict_size+vocab_size), 60))
             
             #print(p_pos, p_neg)
         #time.sleep(2)
@@ -87,12 +87,14 @@ def main():
         test_result.append(abs(p_neg))
         
         if p_pos > p_neg:
-            test_result.append('pos')
-        elif p_neg < p_pos:
             test_result.append('neg')
+        #elif p_neg <= p_pos:
         else:
-            test_result.append(random.choice(['pos', 'neg']))
-            missing_test_results-=1
+            test_result.append('pos')
+        #else:
+            #test_result.append(random.choice(['pos', 'neg']))
+            #test_result.append(None)
+            #missing_test_results-=1
             
             
         test_results.append(test_result)
@@ -104,8 +106,10 @@ def main():
         if result[0] == result[-1]:
             number_of_correct_predictions += 1
     
-    print(number_of_correct_predictions)
-    print(f"approximately {len(combined_test_set) - missing_test_results} predictions had errors because we approached a value that Python couldn't measure (precision error). \nThese results were randomly assigned pos or neg class. ")
+    print("This is the number of correct predictions: ", number_of_correct_predictions)
+    #print(f"approximately {len(combined_test_set) - missing_test_results} predictions had errors because we approached a value that Python couldn't measure (precision error). \nThese results were randomly assigned pos or neg class. ")
+    
+    print('The accuracy of this analysis is: ', number_of_correct_predictions/len(combined_test_set)*100)
     
     return test_results, number_of_correct_predictions/len(combined_test_set)
             
